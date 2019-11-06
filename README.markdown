@@ -5,6 +5,27 @@ All Our Ideas 2.0.  This codebase runs two sites [photocracy.org](http://www.pho
 
 The allourideas.org project provides the user-facing website for doing pairwise voting. This project depends on the API provided by [pairwise-api](https://github.com/allourideas/pairwise-api).  There are several models that are [ActiveResource](http://apidock.com/rails/v2.3.8/ActiveResource/Base) models that connect to the [pairwise API](https://github.com/allourideas/pairwise-api).
 
+## Running using docker-compose
+So i added a Dockerfile to both this repo as well as [pairwise](https://github.com/TheWalkingLeek/pairwise-api).
+
+The project is being run in development environment when using docker
+
+- `wget https://raw.githubusercontent.com/TheWalkingLeek/allourideas.org/master/config/docker/docker-compose.yml`
+- `wget https://raw.githubusercontent.com/TheWalkingLeek/allourideas.org/master/config/docker/aoi-prod.env.tmpl -O aoi-prod.env`
+- `wget https://raw.githubusercontent.com/TheWalkingLeek/allourideas.org/master/config/docker/pairwise-prod.env.tmpl -O pairwise-prod.env`
+- edit aoi-prod.env and pairwise-prod.env
+- `docker-compose up -d`
+- `docker exec -it aoi-pairwise-rails /bin/bash`
+- `rake db:schema:load`
+- `rake util:useradd[pairwisetest@dkapadia.com,wheatthins]` adjust this if you changed the pairwise credentials in aoi-prod.env
+- `exit`
+- `docker exec -it aoi-rails /bin/bash`
+- `rake db:schema:load`
+- `exit`
+- You're done, visit your page at http://localhost:3001 :)
+
+
+
 Installing
 -------------------
 

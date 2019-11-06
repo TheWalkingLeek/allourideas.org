@@ -52,10 +52,10 @@ ActiveRecord::Schema.define(:version => 20161202144215) do
   add_index "clicks", ["session_info_id"], :name => "index_clicks_on_session_info_id"
 
   create_table "delayed_jobs", :force => true do |t|
-    t.integer  "priority",   :default => 0
-    t.integer  "attempts",   :default => 0
+    t.integer  "priority",                  :default => 0
+    t.integer  "attempts",                  :default => 0
     t.text     "handler"
-    t.text     "last_error"
+    t.text     "last_error", :limit => 255
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
@@ -82,9 +82,8 @@ ActiveRecord::Schema.define(:version => 20161202144215) do
     t.string   "default_lang",                     :default => "en"
     t.string   "logo_size",                        :default => "medium"
     t.boolean  "flag_enabled",                     :default => false
-    t.string   "ga_code"
     t.boolean  "photocracy",                       :default => false
-    t.boolean  "accept_new_ideas",                 :default => true
+    t.string   "ga_code"
     t.string   "verify_code"
     t.boolean  "show_cant_decide",                 :default => true
     t.boolean  "show_add_new_idea",                :default => true
@@ -102,11 +101,11 @@ ActiveRecord::Schema.define(:version => 20161202144215) do
   add_index "experiments", ["test_name"], :name => "index_experiments_on_test_name"
 
   create_table "exports", :force => true do |t|
-    t.binary   "data",       :limit => 2147483647
-    t.string   "name",                             :default => ""
+    t.binary   "data",       :limit => 16777216
+    t.string   "name",                           :default => ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "compressed",                       :default => false
+    t.boolean  "compressed",                     :default => false
   end
 
   add_index "exports", ["name"], :name => "index_exports_on_name"

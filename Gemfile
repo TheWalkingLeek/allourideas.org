@@ -1,5 +1,4 @@
 source "https://rubygems.org"
-source "http://gems.github.com"
 
 gem "rails", "2.3.18"
 gem "rake", "~> 0.9.0"
@@ -34,6 +33,8 @@ gem "compass-rails", "~> 1.0.3"
 gem "mysql2", "0.2.24"
 gem "bugsnag", "~> 5.5.0"
 gem "test-unit", "1.2.3"
+
+gem 'passenger', '~> 6.0', '>= 6.0.4'
 
 group :development do
   gem "engineyard", "~> 1.4.29"

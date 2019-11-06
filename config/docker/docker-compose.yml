@@ -1,0 +1,54 @@
+version: '2'
+services:
+  aoi-pairwise-redis: 
+    image: redis:2.8
+  aoi-db:
+    image: mysql:latest
+    container_name: aoi-db
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    env_file:
+      - aoi-prod.env
+    environment:
+      MYSQL_DATABASE: allourideas_production
+    volumes:
+      - aoi-mysql:/var/lib/mysql
+  aoi-pairwise-db:
+    image: mysql:latest
+    container_name: aoi-pairwise-db
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    env_file:
+      - pairwise-prod.env
+    environment:
+      MYSQL_DATABASE: rebirth_production
+    volumes:
+      - aoi-pairwise-mysql:/var/lib/mysql
+  aoi-rails:
+    image: aoirails:latest
+    container_name: aoi-rails
+    build: 
+      context: https://github.com/TheWalkingLeek/allourideas.org.git
+    env_file:
+      - aoi-prod.env
+    environment:
+      RAILS_ENVIRONMENT: production
+    ports:
+      - 3001:3001
+    depends_on:
+      - aoi-db
+      - aoi-pairwise-rails
+  aoi-pairwise-rails:
+    image: pairwiserails:latest
+    container_name: aoi-pairwise-rails
+    build: 
+      context: https://github.com/TheWalkingLeek/pairwise-api.git
+    env_file:
+      - pairwise-prod.env
+    environment:
+      RAILS_ENVIRONMENT: production
+    ports:
+      - 3000:3000
+    depends_on:
+      - aoi-pairwise-db
+volumes:
+  aoi-mysql:
+  aoi-pairwise-mysql:
